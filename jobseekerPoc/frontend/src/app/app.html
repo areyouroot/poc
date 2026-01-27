@@ -1,0 +1,76 @@
+<app-config-modal (configSaved)="onConfigSaved()"></app-config-modal>
+
+<div class="app-container" *ngIf="configSaved">
+  <div class="sidebar">
+    <h1>Job Seeker POC</h1>
+
+    <div class="control-group">
+      <label>Location</label>
+      <div class="row">
+        <input type="number" [(ngModel)]="latitude" placeholder="Lat" step="0.0001">
+        <input type="number" [(ngModel)]="longitude" placeholder="Lon" step="0.0001">
+      </div>
+      <button (click)="getLocation()">Get GPS</button>
+    </div>
+
+    <div class="control-group">
+      <label>Radius: {{radius}} km</label>
+      <input type="range" min="1" max="50" [(ngModel)]="radius">
+    </div>
+
+    <div class="control-group">
+      <label>Sectors</label>
+      <div *ngFor="let sector of availableSectors">
+        <label>
+          <input type="checkbox"
+                 [checked]="selectedSectors.includes(sector)"
+                 (change)="toggleSector(sector, $event)">
+          {{sector}}
+        </label>
+      </div>
+    </div>
+
+    <button class="primary-btn" (click)="scan()" [disabled]="isScanning">
+      {{ isScanning ? 'Scanning...' : 'Scan Companies' }}
+    </button>
+  </div>
+
+  <div class="main-content">
+    <div id="map" class="map-container"></div>
+
+    <div class="results-list">
+      <h3>Companies ({{companies.length}})</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Is Hiring?</th>
+            <th>Sources</th>
+            <th>Emails</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of companies">
+            <td>{{c.name}}</td>
+            <td>{{c.address}}</td>
+            <td>
+              <span *ngIf="c.analyzing">Analyzing...</span>
+              <span *ngIf="!c.analyzing && c.intelligence">
+                <span [class.hiring-yes]="c.intelligence.is_hiring" [class.hiring-no]="!c.intelligence.is_hiring">
+                  {{c.intelligence.is_hiring ? 'YES' : 'No'}}
+                </span>
+              </span>
+            </td>
+            <td>
+              <span *ngIf="c.intelligence">{{ c.intelligence.job_sources.join(', ') }}</span>
+            </td>
+            <td>
+              <span *ngIf="c.intelligence">{{ c.intelligence.emails.join(', ') }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="modal-overlay" *ngIf="isVisible">
+  <div class="modal-content">
+    <h2>Configuration</h2>
+    <div class="form-group">
+      <label>Google Maps API Key</label>
+      <input [(ngModel)]="config.maps_api_key" placeholder="AIza..." />
+    </div>
+    <div class="form-group">
+      <label>Google Custom Search API Key</label>
+      <input [(ngModel)]="config.search_api_key" placeholder="AIza..." />
+    </div>
+    <div class="form-group">
+      <label>Search Engine ID (CX)</label>
+      <input [(ngModel)]="config.search_cx" placeholder="01234..." />
+    </div>
+    <div class="form-group">
+      <label>LLM Provider</label>
+      <select [(ngModel)]="config.llm_provider">
+        <option value="ollama">Ollama (Local)</option>
+        <option value="openai">OpenAI</option>
+      </select>
+    </div>
+    <div class="form-group" *ngIf="config.llm_provider === 'ollama'">
+      <label>Ollama Base URL</label>
+      <input [(ngModel)]="config.llm_base_url" placeholder="http://localhost:11434" />
+    </div>
+    <div class="form-group" *ngIf="config.llm_provider === 'openai'">
+      <label>OpenAI API Key</label>
+      <input [(ngModel)]="config.llm_api_key" type="password" />
+    </div>
+    <button (click)="saveConfig()">Save & Start</button>
+  </div>
+</div>

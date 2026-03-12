@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mango Haven</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9fdfa; /* Light greenish/white background */
+        }
+    </style>
+</head>
+<body class="text-gray-800 flex flex-col min-h-screen">
+
+    <!-- Shared Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-leaf text-green-600 text-2xl"></i>
+                <span class="text-2xl font-bold text-green-700 tracking-tight">Mango Haven</span>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="hidden md:flex flex-1 max-w-2xl mx-8 relative">
+                <input type="text" placeholder="Search for sweet mangoes..." class="w-full border border-gray-300 rounded-full py-2 px-6 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent">
+                <button class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-green-600">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+
+            <!-- Header Actions -->
+            <div class="flex items-center space-x-6">
+                <button class="text-gray-600 hover:text-green-600 font-medium hidden md:block">Categories</button>
+                <button class="text-gray-600 hover:text-green-600 font-medium hidden md:block">Deals</button>
+
+                <!-- Cart Icon -->
+                <button id="header-cart-btn" class="relative text-gray-600 hover:text-green-600">
+                    <i class="fas fa-shopping-cart text-2xl"></i>
+                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-yellow-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">1</span>
+                </button>
+
+                <button class="text-gray-600 hover:text-green-600">
+                    <i class="fas fa-user-circle text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container to host dynamic views -->
+    <main id="app-content" class="flex-grow relative">
+
+        <!-- View 1: Desktop Landing Page -->
+        <div id="landing-view" class="container mx-auto px-4 py-8">
+            <!-- Hero Banner -->
+            <div class="bg-gradient-to-r from-yellow-300 to-green-400 rounded-2xl p-8 mb-12 shadow-lg text-white flex justify-between items-center">
+                <div>
+                    <h1 class="text-4xl font-extrabold mb-4 drop-shadow-md">Welcome to Mango Haven</h1>
+                    <p class="text-lg font-medium drop-shadow-sm max-w-lg">Discover the sweetest and most exotic mangoes, delivered straight to your door. Freshness guaranteed!</p>
+                    <button class="mt-6 bg-white text-green-700 font-bold py-2 px-6 rounded-full shadow hover:bg-gray-100 transition">Shop Now</button>
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Our Bestsellers</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Product Card 1 -->
+                <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+                    <div class="h-48 bg-gray-200 w-full flex items-center justify-center">
+                        <i class="fas fa-image text-gray-400 text-4xl"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-1">Premium Alphonso</h3>
+                        <p class="text-gray-500 text-sm mb-2">1kg</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-green-700">$18.99</span>
+                            <button class="text-white bg-green-600 hover:bg-green-700 p-2 rounded-full shadow"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 (Kesar) -->
+                <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden border-2 border-transparent hover:border-yellow-400">
+                    <div class="h-48 bg-yellow-50 w-full flex items-center justify-center">
+                        <i class="fas fa-image text-yellow-500 text-4xl"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-1">Premium Kesar Mangoes</h3>
+                        <p class="text-gray-500 text-sm mb-2">500g</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-green-700">$12.99</span>
+                            <button class="text-white bg-green-600 hover:bg-green-700 p-2 rounded-full shadow"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+                    <div class="h-48 bg-gray-200 w-full flex items-center justify-center">
+                        <i class="fas fa-image text-gray-400 text-4xl"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-1">Langra Mangoes</h3>
+                        <p class="text-gray-500 text-sm mb-2">1kg</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-green-700">$15.50</span>
+                            <button class="text-white bg-green-600 hover:bg-green-700 p-2 rounded-full shadow"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 4 -->
+                <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+                    <div class="h-48 bg-gray-200 w-full flex items-center justify-center">
+                        <i class="fas fa-image text-gray-400 text-4xl"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-1">Dasheri Mangoes</h3>
+                        <p class="text-gray-500 text-sm mb-2">1kg</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-green-700">$16.00</span>
+                            <button class="text-white bg-green-600 hover:bg-green-700 p-2 rounded-full shadow"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Minimized Chatbot -->
+            <div id="chatbot-min" class="fixed bottom-6 right-6 bg-yellow-400 hover:bg-yellow-500 rounded-full p-4 cursor-pointer shadow-lg flex items-center justify-center transition transform hover:scale-105 z-50">
+                <i class="fas fa-comment-dots text-white text-3xl"></i>
+            </div>
+        </div>
+
+        <!-- View 2: Product Page & Intelligent Chat -->
+        <div id="product-view" class="container mx-auto px-4 py-8 hidden">
+            <!-- Breadcrumbs -->
+            <div class="text-sm text-gray-500 mb-6">
+                <span class="hover:text-green-600 cursor-pointer">Home</span> >
+                <span class="hover:text-green-600 cursor-pointer">Mangoes</span> >
+                <span class="text-gray-800 font-medium">Premium Kesar Mangoes</span>
+            </div>
+
+            <!-- Product Details -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col md:flex-row gap-8">
+                <!-- Product Images -->
+                <div class="md:w-1/2 flex flex-col space-y-4">
+                    <div class="h-96 bg-yellow-50 rounded-xl flex items-center justify-center border border-gray-100">
+                        <i class="fas fa-image text-yellow-500 text-6xl"></i>
+                    </div>
+                    <div class="flex space-x-4">
+                        <div class="h-24 w-24 bg-yellow-50 rounded-lg flex items-center justify-center border-2 border-yellow-400 cursor-pointer">
+                            <i class="fas fa-image text-yellow-400 text-2xl"></i>
+                        </div>
+                        <div class="h-24 w-24 bg-gray-100 rounded-lg flex items-center justify-center border border-gray-200 cursor-pointer hover:border-yellow-400 transition">
+                            <i class="fas fa-image text-gray-400 text-2xl"></i>
+                        </div>
+                        <div class="h-24 w-24 bg-gray-100 rounded-lg flex items-center justify-center border border-gray-200 cursor-pointer hover:border-yellow-400 transition">
+                            <i class="fas fa-image text-gray-400 text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="md:w-1/2 flex flex-col justify-center">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <span class="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded">Bestseller</span>
+                        <div class="text-yellow-400 text-sm">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            <span class="text-gray-500 ml-1">(128 reviews)</span>
+                        </div>
+                    </div>
+                    <h1 class="text-3xl font-bold text-gray-800 mb-2">Premium Kesar Mangoes</h1>
+                    <p class="text-2xl font-bold text-green-700 mb-4">$12.99 <span class="text-sm text-gray-500 font-normal">/ 500g</span></p>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Known as the "Queen of Mangoes", Kesar is famous for its bright orange pulp, extreme sweetness, and perfect texture for making smoothies and purees. Handpicked from the best farms.
+                    </p>
+
+                    <div class="flex items-center space-x-4 mb-6 border-t border-b py-4">
+                        <div class="flex items-center border border-gray-300 rounded-full bg-white">
+                            <button class="px-4 py-2 text-gray-600 hover:text-green-600">-</button>
+                            <span class="px-4 py-2 font-medium">1</span>
+                            <button class="px-4 py-2 text-gray-600 hover:text-green-600">+</button>
+                        </div>
+                        <button id="add-to-cart-btn" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition transform hover:-translate-y-0.5">
+                            Add Kesar to Cart
+                        </button>
+                    </div>
+
+                    <div class="text-sm text-gray-500 space-y-2">
+                        <p><i class="fas fa-truck text-green-600 mr-2"></i> Free delivery on orders over $30</p>
+                        <p><i class="fas fa-box-open text-green-600 mr-2"></i> 100% freshness guarantee</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expanded Chatbot -->
+        <div id="chatbot-expanded" class="fixed bottom-6 right-6 w-80 bg-white rounded-2xl shadow-2xl overflow-hidden hidden z-50 border border-gray-100 flex flex-col">
+            <!-- Chatbot Header -->
+            <div class="bg-green-600 text-white px-4 py-3 flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-leaf"></i>
+                    <span class="font-bold">Mango Helper</span>
+                </div>
+                <button id="close-chatbot-btn" class="text-white hover:text-gray-200 focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Chat History -->
+            <div class="p-4 h-64 overflow-y-auto bg-gray-50 flex flex-col space-y-3">
+                <div class="self-end bg-green-100 text-green-800 rounded-tl-xl rounded-bl-xl rounded-br-xl py-2 px-3 text-sm shadow-sm max-w-[80%]">
+                    I'm looking for sweet mangoes for a smoothie.
+                </div>
+                <div class="self-start bg-white text-gray-800 border border-gray-200 rounded-tr-xl rounded-bl-xl rounded-br-xl py-2 px-3 text-sm shadow-sm max-w-[80%] flex items-start space-x-2">
+                    <i class="fas fa-robot text-green-600 mt-1"></i>
+                    <div>
+                        <p>Kesar mangoes are perfect for smoothies! They have very smooth, fiberless pulp and are incredibly sweet.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input / Action -->
+            <div class="p-3 bg-white border-t border-gray-100">
+                <button id="chat-kesar-action" class="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg shadow transition mb-2 text-sm">
+                    Yes, show me Kesar offers!
+                </button>
+                <div class="relative">
+                    <input type="text" placeholder="Type a message..." class="w-full border border-gray-300 rounded-full py-2 px-4 pr-10 text-sm focus:outline-none focus:ring-1 focus:ring-green-500">
+                    <button class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-green-600">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- View 3: Cart Confirmation & Checkout Flow -->
+        <!-- Cart Modal -->
+        <div id="cart-modal" class="fixed right-0 top-0 h-full w-full md:w-96 bg-white shadow-2xl z-50 flex flex-col transform transition-transform translate-x-full hidden">
+            <!-- Cart Header -->
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                <h2 class="text-xl font-bold text-gray-800"><i class="fas fa-shopping-cart text-green-600 mr-2"></i>Your Cart</h2>
+                <button id="close-cart-btn" class="text-gray-400 hover:text-gray-600 focus:outline-none">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Cart Items -->
+            <div class="flex-grow overflow-y-auto p-6 space-y-6">
+                <!-- Item 1 (Existing) -->
+                <div class="flex items-center space-x-4 border-b border-gray-100 pb-4">
+                    <div class="h-16 w-16 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-image text-gray-400 text-2xl"></i>
+                    </div>
+                    <div class="flex-grow">
+                        <h4 class="font-bold text-gray-800 text-sm">Premium Alphonso</h4>
+                        <p class="text-gray-500 text-xs">1kg</p>
+                        <div class="flex justify-between items-center mt-2">
+                            <div class="flex items-center space-x-2 text-xs">
+                                <button class="text-gray-400 hover:text-green-600"><i class="fas fa-minus"></i></button>
+                                <span class="font-medium">1</span>
+                                <button class="text-gray-400 hover:text-green-600"><i class="fas fa-plus"></i></button>
+                            </div>
+                            <span class="font-bold text-green-700">$18.99</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 2 (Newly Added) -->
+                <div class="flex items-center space-x-4 pb-4">
+                    <div class="h-16 w-16 bg-yellow-50 rounded-lg flex items-center justify-center flex-shrink-0 border border-yellow-200">
+                        <i class="fas fa-image text-yellow-500 text-2xl"></i>
+                    </div>
+                    <div class="flex-grow">
+                        <h4 class="font-bold text-gray-800 text-sm">Premium Kesar Mangoes</h4>
+                        <p class="text-gray-500 text-xs">500g</p>
+                        <div class="flex justify-between items-center mt-2">
+                            <div class="flex items-center space-x-2 text-xs">
+                                <button class="text-gray-400 hover:text-green-600"><i class="fas fa-minus"></i></button>
+                                <span class="font-medium">1</span>
+                                <button class="text-gray-400 hover:text-green-600"><i class="fas fa-plus"></i></button>
+                            </div>
+                            <span class="font-bold text-green-700">$12.99</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cart Footer / Checkout -->
+            <div class="p-6 bg-gray-50 border-t border-gray-100">
+                <div class="flex justify-between text-sm mb-2 text-gray-600">
+                    <span>Subtotal</span>
+                    <span>$31.98</span>
+                </div>
+                <div class="flex justify-between text-sm mb-4 text-gray-600">
+                    <span>Shipping</span>
+                    <span class="text-green-600">Free</span>
+                </div>
+                <div class="flex justify-between font-bold text-lg mb-6 text-gray-800">
+                    <span>Total</span>
+                    <span>$31.98</span>
+                </div>
+                <button class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition transform hover:-translate-y-0.5">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+
+        <!-- Chatbot Checkout State (Minimized with Tooltip) -->
+        <div id="chatbot-min-checkout" class="fixed bottom-6 right-[420px] hidden z-50 flex items-end space-x-4">
+            <!-- Tooltip -->
+            <div class="bg-white text-gray-800 p-4 rounded-xl shadow-xl border border-gray-100 relative mb-2 max-w-xs">
+                <p class="text-sm font-medium">Great choice! Kesar mangoes are now in your cart. Ready to checkout?</p>
+                <!-- Triangle pointer -->
+                <div class="absolute -bottom-2 right-6 w-4 h-4 bg-white border-b border-r border-gray-100 transform rotate-45"></div>
+            </div>
+
+            <!-- Minimized Icon -->
+            <div class="bg-yellow-400 hover:bg-yellow-500 rounded-full p-4 cursor-pointer shadow-lg flex items-center justify-center transition transform hover:scale-105">
+                <i class="fas fa-comment-dots text-white text-3xl"></i>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Overlay for modal -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 Mango Haven. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

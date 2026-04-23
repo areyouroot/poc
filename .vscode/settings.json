@@ -1,0 +1,10 @@
+{
+  "mcp.servers": {
+    "Architecture_Router": {
+      "command": "python",
+      "args": [
+        "${workspaceFolder}/mcp_server/main.py"
+      ]
+    }
+  }
+}

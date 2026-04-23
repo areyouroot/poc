@@ -1,0 +1,8 @@
+{
+    "patterns": [
+        {
+            "task_type": "Testing",
+            "context": "Use playwright and pytest with async setup."
+        }
+    ]
+}

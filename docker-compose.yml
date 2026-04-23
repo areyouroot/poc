@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    # Depending on the system, to use GPU replace the next block or uncomment if deploying on a GPU-enabled host
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  mcp_router:
+    build: .
+    container_name: mcp_router
+    environment:
+      - OLLAMA_URL=http://ollama:11434/api/generate
+    volumes:
+      - ./.chroma_data:/app/.chroma_data
+      - ./mcp_server:/app/mcp_server
+      - ./docs:/app/docs
+    depends_on:
+      - ollama
+    # Entrypoint to pull the model on startup, then keep the container alive
+    command: >
+      bash -c "
+        echo 'Waiting for Ollama to be ready...' &&
+        sleep 5 &&
+        curl -s http://ollama:11434/api/tags > /dev/null || sleep 5 &&
+        echo 'Pulling qwen2.5-coder:3b model...' &&
+        curl -X POST http://ollama:11434/api/pull -d '{\"name\": \"qwen2.5-coder:3b\"}' &&
+        echo 'Model pulled successfully. Ready.' &&
+        tail -f /dev/null
+      "
+
+volumes:
+  ollama_data:

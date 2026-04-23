@@ -3,6 +3,10 @@
         {
             "task_type": "Testing",
             "context": "Use playwright and pytest with async setup."
+        },
+        {
+            "task_type": "Testing",
+            "context": "Always mock API."
         }
     ]
 }

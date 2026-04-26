@@ -10,6 +10,13 @@ import requests
 import chromadb
 from mcp_server.memory_manager import memory_manager
 
+from starlette.applications import Starlette
+from starlette.routing import Route, Mount
+from starlette.responses import JSONResponse
+from starlette.middleware import Middleware
+from starlette.middleware.cors import CORSMiddleware
+from mcp.server.sse import SseServerTransport
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("mcp_server")
 
@@ -151,7 +158,7 @@ Return ONLY valid JSON in the format: {"category": "category_name", "confidence"
         return [types.TextContent(type="text", text=f"Error: {e}")]
 
 
-async def main():
+async def run_stdio():
     logger.info("Starting Architecture_Router MCP server over stdio...")
     async with stdio_server() as (read_stream, write_stream):
         await server.run(
@@ -167,5 +174,44 @@ async def main():
             ),
         )
 
+async def run_sse():
+    logger.info("Starting Architecture_Router MCP server over SSE on port 65530...")
+    sse = SseServerTransport("/messages")
+
+    async def handle_sse(request):
+        async with sse.connect_sse(request.scope, request.receive, request._send) as (read_stream, write_stream):
+            await server.run(
+                read_stream,
+                write_stream,
+                InitializationOptions(
+                    server_name="Architecture_Router",
+                    server_version="1.0.0",
+                    capabilities=server.get_capabilities(
+                        notification_options=NotificationOptions(),
+                        experimental_capabilities={},
+                    ),
+                ),
+            )
+
+    async def handle_messages(request):
+        await sse.handle_post_message(request.scope, request.receive, request._send)
+
+    app = Starlette(
+        debug=True,
+        routes=[
+            Route("/sse", endpoint=handle_sse),
+            Mount("/messages", endpoint=handle_messages),
+        ],
+    )
+    
+    import uvicorn
+    config = uvicorn.Config(app, host="0.0.0.0", port=65530)
+    server_uv = uvicorn.Server(config)
+    await server_uv.serve()
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] == "--sse":
+        asyncio.run(run_sse())
+    else:
+        asyncio.run(run_stdio())

@@ -21,24 +21,26 @@ services:
   mcp_router:
     build: .
     container_name: mcp_router
+    ports:
+      - "65530:65530"
     environment:
       - OLLAMA_URL=http://ollama:11434/api/generate
+      - PYTHONPATH=/app
     volumes:
       - ./.chroma_data:/app/.chroma_data
       - ./mcp_server:/app/mcp_server
       - ./docs:/app/docs
     depends_on:
       - ollama
-    # Entrypoint to pull the model on startup, then keep the container alive
+    # Entrypoint to pull the model on startup, then start the SSE server
     command: >
       bash -c "
         echo 'Waiting for Ollama to be ready...' &&
         sleep 5 &&
-        curl -s http://ollama:11434/api/tags > /dev/null || sleep 5 &&
         echo 'Pulling qwen2.5-coder:3b model...' &&
         curl -X POST http://ollama:11434/api/pull -d '{\"name\": \"qwen2.5-coder:3b\"}' &&
-        echo 'Model pulled successfully. Ready.' &&
-        tail -f /dev/null
+        echo 'Model pulled successfully. Starting MCP Server...' &&
+        python mcp_server/main.py --sse
       "
 
 volumes:

@@ -16,7 +16,9 @@ RUN pip install --no-cache-dir \
     mempalace \
     requests \
     langchain-text-splitters \
-    pydantic
+    pydantic \
+    starlette \
+    uvicorn
 
 # Copy project files
 COPY . /app/
